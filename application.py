@@ -148,7 +148,7 @@ def index():
 def IBRD_Benchmarks():
     return render_template('IBRD_Benchmarks.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
 @app.route('/nlp', methods=("POST", "GET"))
-def IBRD_Benchmarks():
+def nlp():
     return render_template('nlp.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
 ##
 if __name__ == '__main__':
