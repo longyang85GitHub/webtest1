@@ -6,6 +6,18 @@ import pandas as pd
 import xlsxwriter
 import datetime
 import math
+##
+# NLP app
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms.validators import DataRequired, Email
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
+from string import punctuation
+from heapq import nlargest
+# Build a List of Stopwords
+stopwords = list(STOP_WORDS)
+
+##
 now = datetime.datetime.now()
 Citi_US = pd.read_excel('IBRD_Benchmarks data/Citi_IBRD USD and Euro 28022018.xlsx',skiprows=[0],sheet_name="USD")
 Deutsche_US = pd.read_excel('IBRD_Benchmarks data/Deutsche_IBRD USD and Euro.xlsx',skiprows=[0],sheet_name="USD")
@@ -135,6 +147,9 @@ def index():
 @app.route('/IBRD_Benchmarks', methods=("POST", "GET"))
 def IBRD_Benchmarks():
     return render_template('IBRD_Benchmarks.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
+@app.route('/nlp', methods=("POST", "GET"))
+def IBRD_Benchmarks():
+    return render_template('nlp.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
 ##
 if __name__ == '__main__':
     app.run(debug=True)
