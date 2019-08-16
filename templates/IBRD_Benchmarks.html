@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <!-- Main row -->
+      
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
+          <!-- /.box -->
+          <!-- TABLE: LATEST ORDERS -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">US_3m_Libot_result</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <div class="table-responsive">
+                    <table id="example" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                {% for title in csv.columns.values %}
+                                <th scope="col">{{title}}</th>
+                                {% endfor %}
+                            </tr>
+                          </thead>
+                        <tbody> 
+                            {%for row in range(0, total_rows)%} 
+                            <tr>
+                                  {%for col in range (0,total_cols)%}
+                                     <td>{{csv.iloc[row,col]}}</td>
+                                  {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                  </div>
+                <!-- /.table-responsive -->
+              </div>
+              <!-- /.box-body -->
+          </div>
+           <!-- /.box box-info -->
+</div>
+<!-- /.content -->
+{% endblock %}

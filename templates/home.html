@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        CMD Dashboard
+        <small>Control panel</small>
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <!-- Main row -->
+      <div class="row">
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+        <section class="col-lg-6 connectedSortable">
+              <!-- /.box -->
+              <!-- TABLE: LATEST ORDERS -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">US_3M_Libot_Result</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                  <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    {% for title in csv.columns.values %}
+                                    <th scope="col">{{title}}</th>
+                                    {% endfor %}
+                                </tr>
+                              </thead>
+                            <tbody> 
+                                {% set total_rows = csv|length %}
+                                {% set total_cols = csv.columns|length %}
+                                {%for row in range(0, total_rows)%} 
+                                <tr>
+                                      {%for col in range (0,total_cols)%}
+                                        <td>{{csv.iloc[row,col]}}</td>
+                                      {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                  <!-- /.box-body -->
+              </div>
+                <!-- LINE CHART -->
+                <div class="box box-info">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Line Chart</h3>
+      
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <div class="chart">
+                      <canvas id="lineChart" style="height:250px"></canvas>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+            <!-- /.col -->
+        </section>
+        <!-- right col -->
+        <section class="col-lg-6 connectedSortable">
+          <!-- /.box -->
+          <!-- TABLE: LATEST ORDERS -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">US_6M_Libot_Result</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+              <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                {% for title in csv1.columns.values %}
+                                <th scope="col">{{title}}</th>
+                                {% endfor %}
+                            </tr>
+                          </thead>
+                        <tbody> 
+                            {% set total_rows = csv1|length %}
+                            {% set total_cols = csv1.columns|length %}
+                            {%for row in range(0, total_rows)%} 
+                            <tr>
+                                  {%for col in range (0,total_cols)%}
+                                    <td>{{csv1.iloc[row,col]}}</td>
+                                  {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+              <!-- /.box-body -->
+          </div>
+            <!-- LINE CHART -->
+            <div class="box box-info">
+              <div class="box-header with-border">
+                <h3 class="box-title">Line Chart</h3>
+  
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body">
+                <div class="chart">
+                  <canvas id="lineChart2" style="height:250px"></canvas>
+                </div>
+              </div>
+              <!-- /.box-body -->
+        <!-- /.col -->
+    </section>
+      </div>
+</div>
+<!-- /.content -->
+{% endblock %}
+{% block script %}
+new Chart(document.getElementById("lineChart"), {
+  type: 'line',
+  data: {
+    labels: ["2 Year", "3 Year", "5 Year", "10 Year", "30 Year","40 Year","50 Year"],
+    datasets: [
+      { 
+        data: {{csv.iloc[0].values[1:].tolist()}},
+        label: "{{csv.iloc[0,0]}}",
+        borderColor: "#3e95cd",
+        fill: false
+      },
+      { 
+        data: {{csv.iloc[1].values[1:].tolist()}},
+        label: "{{csv.iloc[1,0]}}",
+        borderColor: "#8e5ea2",
+        fill: false
+      },
+      { 
+        data: {{csv.iloc[2].values[1:].tolist()}},
+        label: "{{csv.iloc[2,0]}}",
+        borderColor: "#3cba9f",
+        fill: false
+      },
+      { 
+        data: {{csv.iloc[3].values[1:].tolist()}},
+        label: "{{csv.iloc[3,0]}}",
+        borderColor: "#e8c3b9",
+        fill: false
+      },
+      { 
+        data: {{csv.iloc[4].values[1:].tolist()}},
+        label: "{{csv.iloc[4,0]}}",
+        borderColor: "#c45850",
+        fill: false
+      },
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'US_3M_Libot_Result',
+      
+    }
+  }
+});
+new Chart(document.getElementById("lineChart2"), {
+  type: 'line',
+  data: {
+    labels: ["2 Year", "3 Year", "5 Year", "10 Year", "30 Year","40 Year","50 Year"],
+    datasets: [
+      { 
+        data: {{csv1.iloc[0].values[1:].tolist()}},
+        label: "{{csv1.iloc[0,0]}}",
+        borderColor: "#3e95cd",
+        fill: false
+      },
+      { 
+        data: {{csv1.iloc[1].values[1:].tolist()}},
+        label: "{{csv1.iloc[1,0]}}",
+        borderColor: "#8e5ea2",
+        fill: false
+      },
+      { 
+        data: {{csv1.iloc[2].values[1:].tolist()}},
+        label: "{{csv1.iloc[2,0]}}",
+        borderColor: "#3cba9f",
+        fill: false
+      },
+      { 
+        data: {{csv1.iloc[3].values[1:].tolist()}},
+        label: "{{csv1.iloc[3,0]}}",
+        borderColor: "#e8c3b9",
+        fill: false
+      },
+      { 
+        data: {{csv1.iloc[4].values[1:].tolist()}},
+        label: "{{csv1.iloc[4,0]}}",
+        borderColor: "#c45850",
+        fill: false
+      },
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'US_6M_Libot_Result',
+      
+    }
+  }
+});
+{% endblock %}
