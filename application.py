@@ -14,9 +14,12 @@ import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from string import punctuation
 from heapq import nlargest
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 # Build a List of Stopwords
 stopwords = list(STOP_WORDS)
-nlp = spacy.load('en')
+
+
 def text_summarizer(raw_docx):
     raw_text = raw_docx
     docx = nlp(raw_text)
