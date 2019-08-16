@@ -236,7 +236,7 @@ app = Flask(__name__)
 class ReusableForm(Form):
     Document = TextField('Document:',validators=[validators.required()])
 #index/home
-@app.route('/')
+@app.route('/home', methods=("POST", "GET"))
 def index():
     return render_template('home.html',csv=US_3m_Libot_result,csv1=US_6m_Libot_result)
 
@@ -244,9 +244,32 @@ def index():
 def IBRD_Benchmarks():
     return render_template('IBRD_Benchmarks.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
 
-@app.route('/nlp', methods=("POST", "GET"))
-def nlp():
-    return render_template('nlp.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
+@app.route('/', methods=("POST", "GET"))
+def nlptest():
+    form = ReusableForm(request.form)
+    if request.method == 'POST':
+        Document=request.form['Document']
+        a=len(Document)
+        if a == 0:
+            Document="Please input text"
+            summary=text_summarizer(Document)
+            nlpcsv=create_text_analytics_table(Document)
+            #print(csv)
+            b=len(summary)
+        else:
+            summary=text_summarizer(Document)
+            nlpcsv=create_text_analytics_table(Document)
+            #print(csv)
+            b=len(summary)
+    #return "You entered: {}".format(text)
+    else:
+        a="0"
+        b="0"
+        Document="Please input text"
+        summary="Please input text"
+        data = [{'Text': "", 'lable:ORG': "", 'lable:Date':"", 'lable:Event':"", 'lable:Money':"", 'lable:GPE':""}] 
+        nlpcsv = pd.DataFrame(data) 
+    return render_template('nlp.html',form=form,summary=summary,a=a,b=b,nlpcsv=nlpcsv)
 ##
 if __name__ == '__main__':
     app.run(debug=True)
