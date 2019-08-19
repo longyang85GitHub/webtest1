@@ -236,13 +236,13 @@ app = Flask(__name__)
 class ReusableForm(Form):
     Document = TextField('Document:',validators=[validators.required()])
 #index/home
-@app.route('/home', methods=("POST", "GET"))
-def index():
-    return render_template('home.html',csv=US_3m_Libot_result,csv1=US_6m_Libot_result)
+#@app.route('/home', methods=("POST", "GET"))
+#def index():
+#    return render_template('home.html',csv=US_3m_Libot_result,csv1=US_6m_Libot_result)
 
-@app.route('/IBRD_Benchmarks', methods=("POST", "GET"))
-def IBRD_Benchmarks():
-    return render_template('IBRD_Benchmarks.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
+#@app.route('/IBRD_Benchmarks', methods=("POST", "GET"))
+#def IBRD_Benchmarks():
+#    return render_template('IBRD_Benchmarks.html',csv=US_3m_Libot_result,total_rows=len(US_3m_Libot_result.axes[0]),total_cols=len(US_3m_Libot_result.axes[1]))
 
 @app.route('/', methods=("POST", "GET"))
 def nlptest():
