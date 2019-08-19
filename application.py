@@ -269,7 +269,7 @@ def nlptest():
         summary="Please input text"
         data = [{'Text': "", 'lable:ORG': "", 'lable:Date':"", 'lable:Event':"", 'lable:Money':"", 'lable:GPE':""}] 
         nlpcsv = pd.DataFrame(data) 
-    return render_template('nlp.html',form=form,summary=summary,a=a,b=b,nlpcsv=nlpcsv)
+    return render_template('home.html',form=form,summary=summary,a=a,b=b,nlpcsv=nlpcsv)
 ##
 if __name__ == '__main__':
     app.run(debug=True)
