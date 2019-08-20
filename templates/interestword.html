@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      NLP Dashboard
+      <small>Control panel</small>
+    </h1>
+  </section>
+  <div class="box box-warning">
+    <div class="box-header with-border">
+      <h3 class="box-title">Interest Word</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <form role="form" method="POST" action="/interestword">
+          <input type="text" class="form-control" id="Interest_Word" placeholder="Enter Interest Word" name="Interest_Word" required>
+          <textarea class="form-control" id="Document1" name="Document1" rows="5"></textarea>
+          <button type="submit" class="btn btn-default">Submit</button>
+          <p class="text-aqua">Original Document:</p>
+          <p class="text-green">{{request.form['Document1']}}</p>
+
+          <p class="text-aqua">Interest Sentence</p>
+          <p class="text-green">{{sentence}}</p>
+      </form>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-body">
+      <div class="table-responsive">
+          <table id="example2" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      {% for title in df.columns.values %}
+                      <th scope="col">{{title}}</th>
+                      {% endfor %}
+                  </tr>
+                </thead>
+              <tbody> 
+                  {% set total_rows = df|length %}
+                  {% set total_cols = df.columns|length %}
+                  {%for row in range(0, total_rows)%} 
+                  <tr>
+                        {%for col in range (0,total_cols)%}
+                          <td>{{df.iloc[row,col]}}</td>
+                        {% endfor %}
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      <!-- /.table-responsive -->
+  </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock %}
