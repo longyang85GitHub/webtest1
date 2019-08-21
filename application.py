@@ -15,6 +15,7 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 from wtforms.validators import DataRequired, Email
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
+from spacy_wordnet.wordnet_annotator import WordnetAnnotator 
 from string import punctuation
 from heapq import nlargest
 import en_core_web_sm
