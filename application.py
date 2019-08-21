@@ -1,8 +1,8 @@
 import pandas as pd
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
 import nltk
-from nltk.corpus import wordnet   #Import wordnet from the NLTK
-from nltk.corpus import wordnet as wn
+#from nltk.corpus import wordnet   #Import wordnet from the NLTK
+from nltk.corpus.reader import wordnet as wn
 import os
 import numpy as np
 import pandas as pd
