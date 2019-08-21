@@ -121,6 +121,7 @@ def find_interest_words(word,text_string):
     syn = list(set(syn))
     doc = nlp(text_string)
     for x in syn:
+        print(x)
         matcher = Matcher(nlp.vocab)
         pattern = [{"LEMMA": x}]
         matcher.add(x, None, pattern)
@@ -129,7 +130,8 @@ def find_interest_words(word,text_string):
             if matches:
                 sents.append((x,sent.string))
     df = pd.DataFrame(sents,columns=['inerest word','Sentence about : '+word])
-    return df
+
+    #return df
 #doc1="""Learning is the process of acquiring new, or modifying existing, knowledge, behaviors, skills, values, or preferences.[1] The ability to learn is possessed by humans, animals, and some machines; there is also evidence for some kind of learning in some plants.
 #Machine learning is a method of data analysis that automates analytical model building. It is a branch of artificial intelligence based on the idea that systems can learn from data, identify patterns and make decisions with minimal human intervention. Thank You Long Yang."""
 #t1=find_interest_words(doc1)
@@ -183,7 +185,7 @@ def contains():
     else:
         data = [{'Text': ""}] 
         df = pd.DataFrame(data) 
-    return render_template('interestword.html',form=form,df=df)
+    return render_template('interestword.html',form=form)
 ##
 if __name__ == '__main__':
     app.run(debug=True)
