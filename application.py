@@ -2,6 +2,7 @@ import pandas as pd
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
 import nltk
 from nltk.corpus import wordnet   #Import wordnet from the NLTK
+from nltk.corpus import wordnet as wn
 import os
 import numpy as np
 import pandas as pd
@@ -113,6 +114,14 @@ def create_text_analytics_table(text_string):
     df = pd.DataFrame(narr_t,columns=['Text','Lable:ORG','Lable:Date','Lable:Event','Lable:Money','Lable:GPE'])
     return df
 def find_interest_words(word,text_string):
+    #get synetword
+    syn = list()
+    for synset in wn.synsets(word):
+        for lemma in synset.lemmas():
+            syn.append(lemma.name())    #add the synonyms
+    syn = list(set(syn))
+    #get synetword
+    print(syn)
     sents=[]
     matcher = Matcher(nlp.vocab)
     pattern = [{'LEMMA': word}]
