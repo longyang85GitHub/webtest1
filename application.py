@@ -113,25 +113,17 @@ def create_text_analytics_table(text_string):
     df = pd.DataFrame(narr_t,columns=['Text','Lable:ORG','Lable:Date','Lable:Event','Lable:Money','Lable:GPE'])
     return df
 def find_interest_words(word,text_string):
-    syn = list()
     sents=[]
-    for synset in wordnet.synsets(word):
-        for lemma in synset.lemmas():
-            syn.append(lemma.name())    #add the synonyms
-    syn = list(set(syn))
+    matcher = Matcher(nlp.vocab)
+    pattern = [{'LEMMA': word}]
+    matcher.add('ML_matcher', None, pattern)
     doc = nlp(text_string)
-    for x in syn:
-        print(x)
-        matcher = Matcher(nlp.vocab)
-        pattern = [{"LEMMA": x}]
-        matcher.add(x, None, pattern)
-        for sent in doc.sents:
-            matches = matcher(nlp(sent.string.strip()))
-            if matches:
-                sents.append((x,sent.string))
-    df = pd.DataFrame(sents,columns=['inerest word','Sentence about : '+word])
-
-    #return df
+    for sent in doc.sents:
+        matches = matcher(nlp(sent.string.strip()))
+        if matches:
+            sents.append(sent.string)       
+    df = pd.DataFrame(sents,columns=['Sentence about : '+word])
+    return df
 #doc1="""Learning is the process of acquiring new, or modifying existing, knowledge, behaviors, skills, values, or preferences.[1] The ability to learn is possessed by humans, animals, and some machines; there is also evidence for some kind of learning in some plants.
 #Machine learning is a method of data analysis that automates analytical model building. It is a branch of artificial intelligence based on the idea that systems can learn from data, identify patterns and make decisions with minimal human intervention. Thank You Long Yang."""
 #t1=find_interest_words(doc1)
@@ -169,7 +161,7 @@ def nlptest():
     return render_template('home.html',form=form,summary=summary,a=a,b=b,nlpcsv=nlpcsv)
 
 @app.route('/interestword', methods=("POST", "GET"))
-def contains():
+def interestword():
     form = ReusableForm(request.form)
     if request.method == 'POST':
         Document=request.form['Document1']
@@ -183,9 +175,11 @@ def contains():
         else:
             df=find_interest_words(t1,Document)
     else:
+        Document="Please input text"
         data = [{'Text': ""}] 
-        df = pd.DataFrame(data) 
-    return render_template('interestword.html',form=form)
+        df = pd.DataFrame(data)
+        
+    return render_template('interestword.html',form=form,df=df)
 ##
 if __name__ == '__main__':
     app.run(debug=True)
