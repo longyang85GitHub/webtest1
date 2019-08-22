@@ -5,7 +5,7 @@ from nltk.corpus import wordnet   #Import wordnet from the NLTK
 import os
 import numpy as np
 import pandas as pd
-import xlsxwriterq
+import xlsxwriter
 import datetime
 import math
 ##
