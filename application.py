@@ -1,12 +1,11 @@
 import pandas as pd
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
 import nltk
-#from nltk.corpus import wordnet   #Import wordnet from the NLTK
-from nltk.corpus import wordnet as wn
+from nltk.corpus import wordnet   #Import wordnet from the NLTK
 import os
 import numpy as np
 import pandas as pd
-import xlsxwriter
+import xlsxwriterq
 import datetime
 import math
 ##
@@ -113,19 +112,23 @@ def create_text_analytics_table(text_string):
     narr_t = np.transpose(narr)
     df = pd.DataFrame(narr_t,columns=['Text','Lable:ORG','Lable:Date','Lable:Event','Lable:Money','Lable:GPE'])
     return df
-def find_interest_words(word,text_string):
-    #get synetword
-    #get synetword
+def find_interest_words1(word,text_string):
+    syn = list()
     sents=[]
-    matcher = Matcher(nlp.vocab)
-    pattern = [{'LEMMA': word}]
-    matcher.add('ML_matcher', None, pattern)
+    for synset in wordnet.synsets(word):
+        for lemma in synset.lemmas():
+            syn.append(lemma.name())    #add the synonyms
+    syn = list(set(syn))
     doc = nlp(text_string)
-    for sent in doc.sents:
-        matches = matcher(nlp(sent.string.strip()))
-        if matches:
-            sents.append(sent.string)       
-    df = pd.DataFrame(sents,columns=['Sentence about : '+word])
+    for x in syn:
+        matcher = Matcher(nlp.vocab)
+        pattern = [{"LEMMA": x}]
+        matcher.add(x, None, pattern)
+        for sent in doc.sents:
+            matches = matcher(nlp(sent.string.strip()))
+            if matches:
+                sents.append((x,sent.string))
+    df = pd.DataFrame(sents,columns=['inerest word','Sentence about : '+word])
     return df
 #doc1="""Learning is the process of acquiring new, or modifying existing, knowledge, behaviors, skills, values, or preferences.[1] The ability to learn is possessed by humans, animals, and some machines; there is also evidence for some kind of learning in some plants.
 #Machine learning is a method of data analysis that automates analytical model building. It is a branch of artificial intelligence based on the idea that systems can learn from data, identify patterns and make decisions with minimal human intervention. Thank You Long Yang."""
