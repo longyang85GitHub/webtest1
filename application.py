@@ -112,7 +112,7 @@ def create_text_analytics_table(text_string):
     narr_t = np.transpose(narr)
     df = pd.DataFrame(narr_t,columns=['Text','Lable:ORG','Lable:Date','Lable:Event','Lable:Money','Lable:GPE'])
     return df
-def find_interest_words1(word,text_string):
+def find_interest_words(word,text_string):
     syn = list()
     sents=[]
     for synset in wordnet.synsets(word):
