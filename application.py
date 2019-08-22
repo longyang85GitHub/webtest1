@@ -110,7 +110,7 @@ def create_text_analytics_table(text_string):
             GPE.append(ent.label_)
     narr = np.array([text,ORG,Date,EVENT,Money,GPE],dtype = object)
     narr_t = np.transpose(narr)
-    df = pd.DataFrame(narr_t,columns=['Text','Lable:ORG','Lable:Date','Lable:Event','Lable:Money','Lable:GPE'])
+    df = pd.DataFrame(narr_t,columns=['Text','label:ORG','label:Date','label:Event','label:Money','label:GPE'])
     return df
 def find_interest_words(word,text_string):
     syn = list()
@@ -162,7 +162,7 @@ def nlptest():
         b="0"
         Document="Please input text"
         summary="Please input text"
-        data = [{'Text': "", 'Lable:ORG': "", 'Lable:Date':"", 'Lable:Event':"", 'Lable:Money':"", 'Lable:GPE':""}] 
+        data = [{'Text': "", 'label:ORG': "", 'label:Date':"", 'label:Event':"", 'label:Money':"", 'label:GPE':""}] 
         nlpcsv = pd.DataFrame(data) 
     return render_template('home.html',form=form,summary=summary,a=a,b=b,nlpcsv=nlpcsv)
 
